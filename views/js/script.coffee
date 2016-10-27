@@ -7,15 +7,26 @@ new Vue({
   data: {
     max_status_id: 0,
     current_status_index: -1,
+    current_media_index: 0,
     statuses: []
   },
   computed: {
     current_status: ->
       this.statuses[this.current_status_index]
+    current_media: ->
+      this.current_status["media"][this.current_media_index]
   },
   methods: {
     step: ->
       return unless this.statuses.length > 0
+
+      # increment media index
+      if this.current_status_index != -1 && this.current_media_index < this.current_status["media"].length - 1
+          this.current_media_index += 1
+          return
+
+      # increment status index
+      this.current_media_index = 0
       if this.current_status_index < this.statuses.length - 1
         this.current_status_index += 1
       else
