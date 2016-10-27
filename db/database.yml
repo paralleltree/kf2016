@@ -1,0 +1,7 @@
+default: &default
+  adapter: postgresql
+  encoding: utf8
+
+development:
+  <<: *default
+  database: kf16_development
