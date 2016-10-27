@@ -1,18 +1,21 @@
-<div id="wrapper">
-  <div class="thumbnail" style="background-image: url('https://pbs.twimg.com/media/CvwwuZ3VMAAMwMr.jpg')">
+<div id="wrapper" v-cloak>
+  <div class="thumbnail" v-bind:style="{ 'background-image': 'url(' + current_media.url + ')' }">
   </div>
   <div class="label">
     <div class="profile_icon">
-      <img src="https://pbs.twimg.com/profile_images/782953235233460225/n4TWnsdX_400x400.jpg">
+      <img src="{{ current_status.user.profile_image_url }}">
     </div>
     <div class="text">
       <div class="user">
-        ぱらつり(<a href="https://yahoo.co.jp">@paralleltree</a>)
+        {{ current_status.user.name }}(<a href="https://twitter.com/{{ current_status.user.screen_name }}">@{{ current_status.user.screen_name }}</a>)
       </div>
       <div class="tweet">
         <p>
+          {{ current_status.text }}
         </p>
       </div>
     </div>
   </div>
 </div>
+
+<script src="js/script.js" type="text/javascript"></script>

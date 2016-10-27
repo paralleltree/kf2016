@@ -12,6 +12,9 @@ body {
   }
 }
 
+[v-cloak] {
+  display: none;
+}
 #wrapper {
   position: absolute;
   top: 0;

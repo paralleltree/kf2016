@@ -10,5 +10,6 @@ gem 'sinatra-activerecord'
 gem 'pg'
 gem 'twitter'
 gem "sass"
+gem "coffee-script"
 
 gem 'pry-byebug'
