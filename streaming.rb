@@ -13,7 +13,8 @@ token = {
 words = %w(#Koryosai2016 #Koryosai #工陵祭)
 
 def parse(st)
-  user = User.new(id: st.user.id, screen_name: st.user.screen_name, name: st.user.name, profile_image_url: st.user.profile_image_url_https).tap { |u| u.save }
+  user = User.new(id: st.user.id, screen_name: st.user.screen_name, name: st.user.name,
+                  profile_image_url: st.user.profile_image_url_https.to_s.sub(/_[^_]+?(?=\.\w+\z$)/, '')).tap { |u| u.save }
   status = Status.new(id: st.id, user_id: st.user.id, text: st.text, url: st.url).tap { |s| s.save }
   st.media.each do |m|
     Medium.new(id: m.id, url: m.media_url, status_id: st.id).save
