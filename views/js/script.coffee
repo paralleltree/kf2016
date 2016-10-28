@@ -8,6 +8,7 @@ new Vue({
     max_status_id: "",
     current_status_index: -1,
     current_media_index: 0,
+    failed: false,
     statuses: []
   },
   computed: {
@@ -44,6 +45,7 @@ new Vue({
       .end((err, res) ->
         if err
           console.log(err)
+          that.failed = true
         else
           switch res.statusCode
             when 200
