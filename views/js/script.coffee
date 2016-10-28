@@ -8,6 +8,7 @@ new Vue({
     max_status_id: "",
     current_status_index: -1,
     current_media_index: 0,
+    initializing: true,
     failed: false,
     statuses: []
   },
@@ -15,7 +16,10 @@ new Vue({
     current_status: ->
       this.statuses[this.current_status_index]
     current_media: ->
-      this.current_status["media"][this.current_media_index]
+      if this.initializing
+        { "url": "https://i.ytimg.com/vi/6kR44t-CLvI/maxresdefault.jpg" }
+      else
+        this.current_status["media"][this.current_media_index]
   },
   methods: {
     step: ->
@@ -35,6 +39,7 @@ new Vue({
         if over > 0
           this.statuses.splice(0, over)
         this.current_status_index = 0
+      this.initializing = false
       return
 
     fetch: ->
@@ -62,6 +67,7 @@ new Vue({
   },
   created: ->
     that = this
+    this.fetch()
     setInterval ->
       that.fetch()
     , 10 * 1000

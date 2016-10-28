@@ -2,7 +2,7 @@
   <div class="thumbnail" v-bind:style="{ 'background-image': 'url(' + current_media.url + ')' }">
   </div>
   <span class="tag" v-show="failed">Oops!</span>
-  <div class="label">
+  <div class="label" v-show="!initializing">
     <div class="profile_icon">
       <img src="{{ current_status.user.profile_image_url }}">
     </div>
