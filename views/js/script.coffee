@@ -60,7 +60,9 @@ new Vue({
   },
   created: ->
     that = this
-    this.fetch()
+    setInterval ->
+      that.fetch()
+    , 10 * 1000
     setInterval ->
       that.step()
     , 5 * 1000
