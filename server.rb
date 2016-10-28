@@ -15,7 +15,8 @@ get '/fetch' do
   end
 
   headers "Content-Type" => "application/json"
-  res.to_json(include: { user: { only: [:screen_name, :name, :profile_image_url] }, media: { only: [:url] } }, except: [:user_id, :created_at, :updated_at])
+  res.as_json(include: { user: { only: [:screen_name, :name, :profile_image_url] }, media: { only: [:url] } }, except: [:user_id, :created_at, :updated_at])
+    .tap { |arr| arr.each { |st| st["id"] = st["id"].to_s } }.to_json
 end
 
 get '/js/script.js' do

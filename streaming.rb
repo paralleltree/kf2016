@@ -24,15 +24,16 @@ rescue => e
   false
 end
 
-@rest.search(words.join(" "), result_type: :recent, count: 100, exclude: :retweets, since_id: Status.maximum(:id)).to_a.each do |st|
+@rest.search(words.join(","), result_type: :recent, count: 100, exclude: :retweets, since_id: Status.maximum(:id)).to_a.each do |st|
   next unless st.media.count > 0
   parse(st)
 end
 
 Thread.new do
-  @stream.filter(track: words.join(","), exclude: :retweets) do |st|
+  @stream.filter(track: words.join(",")) do |st|
     case st
     when Twitter::Tweet
+      next if st.retweet?
       next unless st.media.count > 0
       parse(st)
     end

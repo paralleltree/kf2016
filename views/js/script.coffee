@@ -5,7 +5,7 @@ CAPACITY = 8
 new Vue({
   el: "#wrapper",
   data: {
-    max_status_id: 0,
+    max_status_id: "",
     current_status_index: -1,
     current_media_index: 0,
     statuses: []
@@ -40,7 +40,7 @@ new Vue({
       that = this
       request
         .get("fetch")
-      .query(if that.max_status_id == 0 then {} else { max_status_id: that.max_status_id })
+      .query(if that.max_status_id == "" then {} else { max_status_id: that.max_status_id })
       .end((err, res) ->
         if err
           console.log(err)
