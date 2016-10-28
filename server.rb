@@ -2,16 +2,23 @@ require 'sinatra'
 require './models/loader.rb'
 require_relative 'streaming'
 
+blacklist_ids = [
+]
+
+filtered_words = %w()
+
 get '/' do
   erb :index
 end
 
 get '/fetch' do
   limit = 8
-  if params["max_status_id"]
-    res = Status.where("id > ?", params['max_status_id'].to_i).order(:id).limit(limit)
-  else
-    res = Status.order("id DESC").limit(limit).reverse
+  res = Status.valid_statuses(blacklist_ids, filtered_words).tap do |rel|
+    if params["max_status_id"]
+      break rel.where(id: (params['max_status_id'].to_i + 1)..Float::INFINITY).order(:id).limit(limit)
+    else
+      break rel.order(id: :desc).limit(limit).reverse
+    end
   end
 
   headers "Content-Type" => "application/json"
