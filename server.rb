@@ -12,9 +12,9 @@ get '/' do
 end
 
 get '/fetch' do
-  limit = 8
+  limit = params[:limit].present? ? params[:limit] : 8
   res = Status.valid_statuses(blacklist_ids, filtered_words).tap do |rel|
-    if params["max_status_id"]
+    if params["max_status_id"].present?
       break rel.where(id: (params['max_status_id'].to_i + 1)..Float::INFINITY).order(:id).limit(limit)
     else
       break rel.order(id: :desc).limit(limit).reverse

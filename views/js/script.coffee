@@ -46,7 +46,7 @@ new Vue({
       that = this
       request
         .get("fetch")
-      .query(if that.max_status_id == "" then {} else { max_status_id: that.max_status_id })
+      .query({ limit: CAPACITY, max_status_id: that.max_status_id })
       .end((err, res) ->
         if err
           console.log(err)
