@@ -2,10 +2,9 @@ require 'sinatra'
 require './models/loader.rb'
 require_relative 'streaming'
 
-blacklist_ids = [
-]
 
-filtered_words = %w()
+blacklist_ids = open('blacklist_ids.txt') { |f| f.read.split("\n").map { |s| s.to_i } }
+filtered_words = open('filtered_words.txt') { |f| f.read.split("\n") }
 
 get '/' do
   erb :index
