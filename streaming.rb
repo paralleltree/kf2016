@@ -25,7 +25,7 @@ rescue => e
   false
 end
 
-@rest.search(words.join(","), result_type: :recent, count: 100, exclude: :retweets, since_id: Status.maximum(:id)).to_a.each do |st|
+@rest.search(words.join(" OR "), result_type: :recent, count: 100, exclude: :retweets).to_a.each do |st|
   next unless st.media.count > 0
   parse(st)
 end
