@@ -10,16 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161027073024) do
+ActiveRecord::Schema.define(version: 20161029065348) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "media", id: :bigint, force: :cascade do |t|
-    t.bigint   "status_id",  null: false
-    t.string   "url",        null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.bigint "status_id", null: false
+    t.string "url",       null: false
     t.index ["status_id"], name: "index_media_on_status_id", using: :btree
   end
 
@@ -27,8 +25,7 @@ ActiveRecord::Schema.define(version: 20161027073024) do
     t.bigint   "user_id",    null: false
     t.string   "text",       null: false
     t.string   "url",        null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
     t.index ["user_id"], name: "index_statuses_on_user_id", using: :btree
   end
 
@@ -36,8 +33,7 @@ ActiveRecord::Schema.define(version: 20161027073024) do
     t.string   "screen_name",       null: false
     t.string   "name",              null: false
     t.string   "profile_image_url", null: false
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at"
   end
 
 end

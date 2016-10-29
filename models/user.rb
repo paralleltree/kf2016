@@ -5,4 +5,5 @@ class User < ActiveRecord::Base
   validates :screen_name, presence: true
   validates :name, presence: true
   validates :profile_image_url, presence: true
+  validates :created_at, presence: true
 end
