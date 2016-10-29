@@ -13,17 +13,33 @@ token = {
 words = %w(#Koryosai2016 #Koryosai #工陵祭)
 
 def parse(st)
-  user = User.new(id: st.user.id, screen_name: st.user.screen_name, name: st.user.name,
-                  created_at: st.user.created_at,
-                  profile_image_url: st.user.profile_image_url_https.to_s.sub(/_[^_]+?(?=\.\w+\z$)/, '')).tap { |u| u.save }
-  status = Status.new(id: st.id, user_id: st.user.id, text: st.text, url: st.url, created_at: st.created_at).tap { |s| s.save }
-  st.media.each do |m|
-    Medium.new(id: m.id, url: m.media_url, status_id: st.id).save
+  User.find_or_initialize_by(id: st.user.id).tap do |user|
+    user.screen_name = st.user.screen_name
+    user.name = st.user.name
+    user.created_at = st.user.created_at
+    user.profile_image_url = st.user.profile_image_url_https.to_s.sub(/_[^_]+?(?=\.\w+\z$)/, '')
+    user.save
   end
-  true
-rescue => e
-  false
-end
+
+  Status.find_or_initialize_by(id: st.id).tap do |status|
+    status.user_id = st.user.id
+    status.text = st.text
+    status.url = st.url
+    status.created_at = st.created_at
+    status.save
+  end
+
+  st.media.each do |m|
+    Medium.find_or_initialize_by(id: m.id).tap do |medium|
+      medium.url = m.media_url
+      medium.status_id = st.id
+      medium.save
+    end
+    true
+  end
+  rescue => e
+    false
+  end
 
 @rest.search(words.join(" OR "), result_type: :recent, count: 100, exclude: :retweets).to_a.each do |st|
   next unless st.media.count > 0
