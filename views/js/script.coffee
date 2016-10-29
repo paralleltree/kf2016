@@ -54,6 +54,7 @@ new Vue({
         else
           switch res.statusCode
             when 200
+              that.failed = false
               sts = res.body
               # push statuses
               for element in sts
