@@ -3,7 +3,8 @@ require './models/loader.rb'
 require_relative 'streaming'
 
 
-blacklist_ids = open('blacklist_ids.txt') { |f| f.read.split("\n").map { |s| s.to_i } }
+filtered_user_ids = open('filtered_user_ids.txt') { |f| f.read.split("\n").map { |s| s.to_i } }
+filtered_status_ids = open('filtered_status_ids.txt') { |f| f.read.split("\n").map { |s| s.to_i } }
 filtered_words = open('filtered_words.txt') { |f| f.read.split("\n") }
 
 get '/' do
@@ -12,7 +13,11 @@ end
 
 get '/fetch' do
   limit = params[:limit].present? ? params[:limit] : 8
-  res = Status.valid_statuses(blacklist_ids, filtered_words).tap do |rel|
+  res = Status.valid_statuses(
+    filtered_user_ids: filtered_user_ids,
+    filtered_status_ids:filtered_status_ids,
+    filtered_words: filtered_words
+  ).tap do |rel|
     if params["max_status_id"].present?
       break rel.where(id: (params['max_status_id'].to_i + 1)..Float::INFINITY).order(:id).limit(limit)
     else
