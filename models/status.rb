@@ -10,6 +10,7 @@ class Status < ActiveRecord::Base
 
   scope :valid_statuses, -> (**args) {
     includes(:user)
+      .where(deleted: false)
       .where.not(id: args[:filtered_status_ids])
       .where.not(users: { id: args[:filtered_user_ids] })
       .where("users.created_at < ?", 2.days.ago)

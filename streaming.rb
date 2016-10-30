@@ -53,6 +53,8 @@ Thread.new do
       next if st.retweet?
       next unless st.media.count > 0
       parse(st)
+    when Twitter::Streaming::DeletedTweet
+      Status.find_by(id: st.id).tap { |st| st.update(deleted: true) if st }
     end
   end
 end
