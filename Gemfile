@@ -5,6 +5,7 @@ source "https://rubygems.org"
 gem 'rake'
 gem 'sinatra'
 gem 'sinatra-contrib'
+gem 'puma'
 gem 'activerecord'
 gem 'sinatra-activerecord'
 gem 'pg'
