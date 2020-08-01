@@ -5,3 +5,7 @@ default: &default
 development:
   <<: *default
   database: kf16_development
+
+production:
+  <<: *default
+  database: kf16_production
